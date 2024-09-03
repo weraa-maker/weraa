@@ -171,7 +171,7 @@ export function NavigationMenuBar() {
 
         {/* Blog Link */}
         <NavigationMenuItem>
-          <Link href="/blog" passHref>
+          <Link href="/" passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Blog
             </NavigationMenuLink>
