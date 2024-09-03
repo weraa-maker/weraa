@@ -112,10 +112,10 @@ export function NavigationMenuBar() {
               <ListItem href="/" title="BPO">
                 Our team provides bespoke customer service solutions to enhance client satisfaction and loyalty.
               </ListItem>
-              <ListItem href="#section5" title="Services">
+              <ListItem href="#services" title="Services">
                 Our services are designed to optimize your business operations and deliver top-notch results.
               </ListItem>
-              <ListItem href="#section6" title="Structure">
+              <ListItem href="#structure" title="Structure">
                 Leverage our expertise to manage your projects seamlessly with real-time insights and robust support.
               </ListItem>
             </ul>

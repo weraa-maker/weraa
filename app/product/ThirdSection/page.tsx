@@ -51,7 +51,7 @@ const options = [
 
 const ThirdSection = () => {
   return (
-    <div id="section3" className="py-16 bg-gray-100 space-y-12 flex flex-col items-center justify-center">
+    <div id="service" className="py-16 bg-gray-100 space-y-12 flex flex-col items-center justify-center">
       <div id="data-annotation-services" className="text-5xl font-bold text-center text-gray-900">
         Data Annotation Services
       </div>

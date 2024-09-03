@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const SeventhSection = () => {
   return (
-    <div id="section4" className="py-20 px-10 flex flex-col items-center justify-center bg-gray-200">
+    <div id="workflow" className="py-20 px-10 flex flex-col items-center justify-center bg-gray-200">
       <div className="text-4xl md:w-2/5 text-center font-bold text-gray-800">
         Our Plan and How We Work with Clients
       </div>

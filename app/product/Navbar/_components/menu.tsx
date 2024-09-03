@@ -145,10 +145,10 @@ export function NavigationMenuBar() {
               <ListItem href="/product" title="Weraa Solution">
                 Unlock the potential of your business with Generative AI services.
               </ListItem>
-              <ListItem href="#section3" title="Services">
+              <ListItem href="#service" title="Services">
                 Transform your platform with advanced content moderation.
               </ListItem>
-              <ListItem href="#section4" title="Workflow">
+              <ListItem href="#workflow" title="Workflow">
                 Making your operations as efficient and effective as possible.
               </ListItem>
             </ul>

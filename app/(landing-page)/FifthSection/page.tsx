@@ -11,7 +11,7 @@ const FifthSection = () => {
   return (
     <div className="md:flex md:space-x-20 py-20 space-y-10 items-center justify-center bg-gray-900">
       
-      <div id="section6" className="space-y-6 flex flex-col text-gray-200 md:w-1/3 px-10">
+      <div id="structure" className="space-y-6 flex flex-col text-gray-200 md:w-1/3 px-10">
         <div className="text-xl font-semibold">STREAMLINE YOUR WORK AND PROCESSES</div>
         <div className="text-4xl font-bold">Prioritize revenue-driving work</div>
         <div className="text-xl">
