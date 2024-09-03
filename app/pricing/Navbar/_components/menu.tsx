@@ -107,13 +107,13 @@ export function NavigationMenuBar() {
                   </Link>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/product" title="Weraa solution">
+              <ListItem href="/product#weraa-solution" title="Weraa solution">
                 Unlock the Potential of Your Business with Generative AI Services.
               </ListItem>
-              <ListItem href="/product" title="Services">
+              <ListItem href="/product#services" title="Services">
                 Transform Your Platform with Advanced Content Moderation.
               </ListItem>
-              <ListItem href="/product" title="Workflow">
+              <ListItem href="/product#workflow" title="Workflow">
                 Making your operations as efficient and effective as possible.
               </ListItem>
             </ul>
@@ -157,19 +157,32 @@ export function NavigationMenuBar() {
 }
 
 // ListItem Component
-const ListItem = React.forwardRef<HTMLDivElement, {
+const ListItem = React.forwardRef<HTMLAnchorElement, {
   className?: string;
   title: string;
   children: React.ReactNode;
   href: string;
 }>(
   ({ className, title, children, href }, ref) => {
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      // Check if the href is a hash link
+      if (href.startsWith("#")) {
+        e.preventDefault();
+        const sectionId = href.substring(1);
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    };
+
     return (
       <li>
         <NavigationMenuLink asChild>
           <Link href={href} passHref>
-            <div
+            <a
               ref={ref}
+              onClick={handleClick}
               className={cn(
                 "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
                 className
@@ -179,7 +192,7 @@ const ListItem = React.forwardRef<HTMLDivElement, {
               <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                 {children}
               </p>
-            </div>
+            </a>
           </Link>
         </NavigationMenuLink>
       </li>
