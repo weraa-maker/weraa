@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link"; // Import Link from 'next/link'
 
 const FirstSection = () => {
   return (
@@ -13,12 +14,10 @@ const FirstSection = () => {
         </div>
 
         <div className="flex space-x-4">
-          <a href="/contact">
-            <div className="text-lg md:text-xl bg-white text-black p-6 rounded-lg w-40 flex items-center justify-center transform transition-transform hover:scale-105 hover:bg-gray-200 shadow-lg">
-              Get Started
-              <ArrowRight className="ml-2" />
-            </div>
-          </a>
+          <Link href="/contact" className="text-lg md:text-xl bg-white text-black p-6 rounded-lg w-40 flex items-center justify-center transform transition-transform hover:scale-105 hover:bg-gray-200 shadow-lg">
+            Get Started
+            <ArrowRight className="ml-2" />
+          </Link>
         </div>
       </div>
 
