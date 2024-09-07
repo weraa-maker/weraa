@@ -13,6 +13,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import Logo from "./logo";
+import { Link as ScrollLink } from "react-scroll"; // Import react-scroll
 
 // Sample components for the Industries dropdown
 const components = [
@@ -142,15 +143,42 @@ export function NavigationMenuBar() {
                   </Link>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/product" title="Weraa Solution">
+              {/* Smooth scrolling to the Services section */}
+              <ListItem href="/solution" title="Weraa Solution">
                 Unlock the potential of your business with Generative AI services.
               </ListItem>
-              <ListItem href="#service" title="Services">
-                Transform your platform with advanced content moderation.
-              </ListItem>
-              <ListItem href="#workflow" title="Workflow">
-                Making your operations as efficient and effective as possible.
-              </ListItem>
+              <li>
+                <NavigationMenuLink asChild>
+                  <ScrollLink to="service" smooth={true} duration={500}>
+                    <div
+                      className="block select-none space-y-1 rounded-md p-4 leading-none no-underline outline-none transition-colors hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900"
+                    >
+                      <div className="text-sm font-medium leading-none">
+                        Services
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-gray-600">
+                        Transform your platform with advanced content moderation.
+                      </p>
+                    </div>
+                  </ScrollLink>
+                </NavigationMenuLink>
+              </li>
+              <li>
+                <NavigationMenuLink asChild>
+                  <ScrollLink to="workflow" smooth={true} duration={500}>
+                    <div
+                      className="block select-none space-y-1 rounded-md p-4 leading-none no-underline outline-none transition-colors hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900"
+                    >
+                      <div className="text-sm font-medium leading-none">
+                        Workflow
+                      </div>
+                      <p className="line-clamp-2 text-sm leading-snug text-gray-600">
+                        Making your operations as efficient and effective as possible.
+                      </p>
+                    </div>
+                  </ScrollLink>
+                </NavigationMenuLink>
+              </li>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>

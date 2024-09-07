@@ -3,6 +3,7 @@
 import Calendly from "@/components/Calendly";
 import { PiCheckCircle } from "react-icons/pi";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const checkItemVariants = {
   hidden: { opacity: 0, x: -30 },
@@ -67,8 +68,29 @@ export default function FirstSection() {
         </div>
       </div>
 
-      <div className="mt-14 md:mt-24 bg-white rounded-xl shadow-lg p-8 flex items-center justify-center">
-        <Calendly />
+      {/* Call to Action Section */}
+      <div className="mt-14 md:mt-24 bg-white rounded-xl shadow-lg p-8 flex flex-col items-center justify-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-[#2c3e50] mb-4">
+          Ready to Work with Us?
+        </h2>
+        <p className="text-gray-600 mb-8 text-center leading-relaxed">
+          Book a free 30-minute consultation to discuss your needs and see how
+          we can help your business grow.
+        </p>
+        <Link
+          href="https://calendly.com/brian-madoyi-weraa/30min"
+          className="
+            bg-[#3d80d7] text-white px-6 py-3 rounded-lg text-lg font-semibold 
+            hover:bg-[#2b65b3] transition duration-300
+          "
+        >
+          Schedule a Call
+        </Link>
+
+        {/* Calendly widget */}
+        <div className="mt-8 w-full">
+          <Calendly />
+        </div>
       </div>
     </div>
   );

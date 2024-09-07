@@ -13,9 +13,15 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import Logo from "./logo";
+import { Link as ScrollLink } from "react-scroll"; // Import Link from react-scroll
 
 // Sample components for the Industries dropdown
-const components = [
+interface Component {
+  title: string;
+  description: string;
+}
+
+const components: Component[] = [
   {
     title: "ADAS & Automotive Vehicles",
     description:
@@ -88,7 +94,6 @@ export function NavigationMenuBar() {
   return (
     <NavigationMenu>
       <NavigationMenuList className="hidden md:flex md:space-x-6">
-        
         {/* Features Dropdown */}
         <NavigationMenuItem>
           <NavigationMenuTrigger>Features</NavigationMenuTrigger>
@@ -112,12 +117,31 @@ export function NavigationMenuBar() {
               <ListItem href="/" title="BPO">
                 Our team provides bespoke customer service solutions to enhance client satisfaction and loyalty.
               </ListItem>
-              <ListItem href="#services" title="Services">
-                Our services are designed to optimize your business operations and deliver top-notch results.
-              </ListItem>
-              <ListItem href="#structure" title="Structure">
-                Leverage our expertise to manage your projects seamlessly with real-time insights and robust support.
-              </ListItem>
+              {/* Use react-scroll's ScrollLink for smooth scrolling */}
+              <li>
+                <ScrollLink to="services" smooth={true} duration={500}>
+                  <div className="block select-none space-y-1 rounded-md p-4 leading-none no-underline outline-none transition-colors hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900">
+                    <div className="text-sm font-medium leading-none">
+                      Services
+                    </div>
+                    <p className="line-clamp-2 text-sm leading-snug text-gray-600">
+                      Our services are designed to optimize your business operations and deliver top-notch results.
+                    </p>
+                  </div>
+                </ScrollLink>
+              </li>
+              <li>
+                <ScrollLink to="structure" smooth={true} duration={500}>
+                  <div className="block select-none space-y-1 rounded-md p-4 leading-none no-underline outline-none transition-colors hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900">
+                    <div className="text-sm font-medium leading-none">
+                      Structure
+                    </div>
+                    <p className="line-clamp-2 text-sm leading-snug text-gray-600">
+                      Leverage our expertise to manage your projects seamlessly with real-time insights and robust support.
+                    </p>
+                  </div>
+                </ScrollLink>
+              </li>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -129,7 +153,7 @@ export function NavigationMenuBar() {
             <ul className="grid gap-4 p-6 md:w-[420px] lg:w-[520px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
-                  <Link href="/product">
+                  <Link href="/solution">
                     <div className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-gray-100 to-gray-300 p-6 no-underline outline-none focus:shadow-md">
                       <Logo />
                       <div className="mb-2 mt-4 text-lg font-semibold text-gray-800">
@@ -142,13 +166,13 @@ export function NavigationMenuBar() {
                   </Link>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/product" title="Weraa Solution">
+              <ListItem href="/solution" title="Weraa Solution">
                 Unlock the potential of your business with Generative AI services.
               </ListItem>
-              <ListItem href="/product" title="Services">
+              <ListItem href="/solution" title="Services">
                 Transform your platform with advanced content moderation.
               </ListItem>
-              <ListItem href="/product" title="Workflow">
+              <ListItem href="/solution" title="Workflow">
                 Making your operations as efficient and effective as possible.
               </ListItem>
             </ul>

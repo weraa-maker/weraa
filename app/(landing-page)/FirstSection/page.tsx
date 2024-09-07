@@ -24,7 +24,7 @@ const FirstSection = () => {
               Get Started Today
             </button>
           </Link>
-          <Link href="/product">
+          <Link href="/solution">
             <button className="bg-gray-500 text-white px-6 py-3 rounded-sm hover:bg-gray-700 transition duration-300">
               See How It Works
             </button>
