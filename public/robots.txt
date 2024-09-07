@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://weraa.org
+
+# Sitemaps
+Sitemap: https://weraa.org/sitemap.xml

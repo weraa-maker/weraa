@@ -1,6 +1,7 @@
-const RSSParser = require('rss-parser');
+import { IConfig } from 'next-sitemap';
+import RSSParser from 'rss-parser';
 
-const config = {
+const config: IConfig = {
   siteUrl: process.env.SITE_URL || 'https://weraa.org',
   generateRobotsTxt: true,
   sitemapSize: 5000,
@@ -14,17 +15,13 @@ const config = {
   ],
   additionalPaths: async (config) => {
     const parser = new RSSParser();
-    try {
-      const feed = await parser.parseURL('https://medium.com/@weraatech');
-      return feed.items.map(item => ({
-        loc: item.link || '',
-        lastmod: item.pubDate || '',
-      }));
-    } catch (error) {
-      console.error('Error parsing RSS feed:', error);
-      return [];
-    }
+    const feed = await parser.parseURL('https://medium.com/@weraatech');
+
+    return feed.items.map(item => ({
+      loc: item.link || '',
+      lastmod: item.pubDate || '',
+    }));
   },
 };
 
-module.exports = config;
+export default config;
