@@ -1,88 +1,96 @@
 'use client';
 
-import { useEffect } from 'react';
+import React from 'react';
 
-// Component to add JSON-LD structured data to the page
-export default function JsonLd() {
-  useEffect(() => {
-    // Organization structured data
-    const organizationStructuredData = {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'Weraa',
-      url: 'https://www.weraa.com',
-      logo: 'https://www.weraa.com/images/bird-logo.png',
-      sameAs: [
-        'https://www.facebook.com/weraa',
-        'https://www.twitter.com/weraa',
-        'https://www.linkedin.com/company/weraa',
-      ],
-      contactPoint: {
-        '@type': 'ContactPoint',
-        telephone: '+1-123-456-7890',
-        contactType: 'customer service',
-        availableLanguage: ['English', 'Arabic'],
-      },
-      description: 'Weraa provides expert data annotation and labeling services for AI, ML, and content moderation.',
-    };
+interface JsonLdProps {
+  type?: 'website' | 'organization' | 'localBusiness' | 'breadcrumb';
+  data?: Record<string, any>;
+}
 
-    // Service structured data
-    const serviceStructuredData = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      serviceType: 'Data Annotation Services',
-      provider: {
-        '@type': 'Organization',
+export default function JsonLd({ type = 'website', data = {} }: JsonLdProps) {
+  let jsonData = {};
+
+  // Base organization data
+  const organizationData = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Weraa',
+    url: 'https://weraa.vercel.app',
+    logo: 'https://weraa.vercel.app/images/logo.png',
+    sameAs: [
+      'https://twitter.com/weraa',
+      'https://www.linkedin.com/company/weraa',
+      'https://www.facebook.com/weraa',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+1-123-456-7890', // Replace with actual phone
+      contactType: 'customer service',
+      availableLanguage: ['English'],
+    },
+    description: 'Weraa provides expert data annotation and labeling services for AI, ML, and content moderation.',
+  };
+
+  // Different structured data based on type
+  switch (type) {
+    case 'organization':
+      jsonData = {
+        ...organizationData,
+        ...data,
+      };
+      break;
+
+    case 'localBusiness':
+      jsonData = {
+        ...organizationData,
+        '@type': 'LocalBusiness',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: '123 Main Street', // Replace with actual address
+          addressLocality: 'City', 
+          addressRegion: 'State',
+          postalCode: '12345',
+          addressCountry: 'US',
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: 40.7128, // Replace with actual coordinates
+          longitude: -74.0060,
+        },
+        openingHours: 'Mo-Fr 09:00-18:00',
+        ...data,
+      };
+      break;
+
+    case 'breadcrumb':
+      jsonData = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: data.itemListElement || [],
+      };
+      break;
+
+    case 'website':
+    default:
+      jsonData = {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
         name: 'Weraa',
-      },
-      description: 'Professional data annotation services for AI and machine learning, including image labeling, text annotation, and content moderation.',
-      areaServed: 'Worldwide',
-      hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        name: 'Data Annotation Services',
-        itemListElement: [
-          {
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: 'Image Annotation',
-            },
-          },
-          {
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: 'Text Annotation',
-            },
-          },
-          {
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: 'Content Moderation',
-            },
-          },
-        ],
-      },
-    };
+        url: 'https://weraa.vercel.app',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: 'https://weraa.vercel.app/search?q={search_term_string}',
+          'query-input': 'required name=search_term_string',
+        },
+        ...data,
+      };
+      break;
+  }
 
-    // Add the script tags with the structured data
-    const organizationScript = document.createElement('script');
-    organizationScript.type = 'application/ld+json';
-    organizationScript.text = JSON.stringify(organizationStructuredData);
-    document.head.appendChild(organizationScript);
-
-    const serviceScript = document.createElement('script');
-    serviceScript.type = 'application/ld+json';
-    serviceScript.text = JSON.stringify(serviceStructuredData);
-    document.head.appendChild(serviceScript);
-
-    // Cleanup
-    return () => {
-      document.head.removeChild(organizationScript);
-      document.head.removeChild(serviceScript);
-    };
-  }, []);
-
-  return null;
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonData) }}
+    />
+  );
 } 

@@ -16,6 +16,10 @@ import NewsletterForm from '@/components/newsletter-form';
 export const metadata: Metadata = {
   title: 'Data Annotation & Labeling Solutions for AI and Machine Learning',
   description: 'Weraa provides expert data annotation services, helping enterprises scale their AI projects with high-quality labeled data for machine learning and content moderation.',
+  keywords: ['data annotation', 'data labeling', 'AI data', 'machine learning data', 'annotation services', 'content moderation', 'data solutions'],
+  alternates: {
+    canonical: 'https://weraa.vercel.app',
+  },
   openGraph: {
     title: 'Weraa - Data Annotation & Labeling Solutions',
     description: 'Expert data annotation services for AI and machine learning projects',
@@ -30,10 +34,75 @@ export const metadata: Metadata = {
   },
 };
 
+// Define our service structured data
+const serviceData = {
+  '@type': 'Service',
+  serviceType: 'Data Annotation Services',
+  provider: {
+    '@type': 'Organization',
+    name: 'Weraa',
+  },
+  description: 'Professional data annotation services for AI and machine learning, including image labeling, text annotation, and content moderation.',
+  areaServed: 'Worldwide',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Data Annotation Services',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Image Annotation',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Text Annotation',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Content Moderation',
+        },
+      },
+    ],
+  },
+};
+
 const LandingPage = () => {
     return ( 
     <div>
-      <JsonLd />
+      {/* Add various structured data types */}
+      <JsonLd type="website" />
+      <JsonLd type="organization" />
+      <JsonLd type="breadcrumb" 
+        data={{
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              item: {
+                '@id': 'https://weraa.vercel.app',
+                name: 'Home',
+              },
+            },
+          ],
+        }} 
+      />
+      {/* Custom service structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ 
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            ...serviceData
+          })
+        }}
+      />
       <Navbar/>
       <FirstSection/>
       <SecondSection/>

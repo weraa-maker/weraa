@@ -4,9 +4,14 @@ import './globals.css'
 import Script from 'next/script'
 import CookieConsent from '@/components/cookie-consent'
 
-const font = Outfit({ subsets: ['latin'] })
+const font = Outfit({ 
+  subsets: ['latin'],
+  display: 'swap', // Optimize font loading
+  variable: '--font-outfit', // Enable usage as a CSS variable
+})
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://weraa.vercel.app'),
   title: {
     default: 'Weraa - Data Annotation and Labeling Solutions',
     template: '%s | Weraa'
@@ -21,10 +26,28 @@ export const metadata: Metadata = {
     telephone: false,
     address: false,
   },
+  alternates: {
+    canonical: 'https://weraa.vercel.app',
+    languages: {
+      'en-US': 'https://weraa.vercel.app',
+      'x-default': 'https://weraa.vercel.app',
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.weraa.com',
+    url: 'https://weraa.vercel.app',
     siteName: 'Weraa',
     title: 'Weraa - Data Annotation and Labeling Solutions',
     description: 'Expert data annotation and labeling services for AI, ML, and content moderation.',
@@ -42,6 +65,15 @@ export const metadata: Metadata = {
     title: 'Weraa - Data Annotation and Labeling Solutions',
     description: 'Expert data annotation and labeling services for AI, ML, and content moderation.',
     images: ['/images/twitter-image.jpg'],
+    creator: '@weraa',
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
+  verification: {
+    google: 'google-site-verification-code', // Replace with your verification code
   },
 }
 
@@ -51,9 +83,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={font.variable}>
       <head>
-        <link rel="canonical" href="https://www.weraa.com" />
+        {/* Preconnect to relevant domains */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
         {/* Google Tag Manager */}
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`
