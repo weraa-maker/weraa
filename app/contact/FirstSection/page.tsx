@@ -3,14 +3,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
@@ -44,16 +36,8 @@ export default function FirstSection() {
   });
 
   // Handle form field changes
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  // Handle select changes
-  const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -162,42 +146,32 @@ export default function FirstSection() {
 
           <div className="flex items-center justify-center space-y-4 w-full">
             <label className="w-60 text-2xl pt-4">Country</label>
-            <Select
-              onValueChange={(value) => handleSelectChange("country", value)}
-              defaultValue={formData.country}
+            <select
+              className="flex h-16 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none"
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Select a country" />
-              </SelectTrigger>
-              <SelectContent>
-                <div className="flex gap-4">
-                  <SelectItem value="canada">Canada</SelectItem>
-                </div>
-                <SelectItem value="usa">
-                  United States of America
-                </SelectItem>
-              </SelectContent>
-            </Select>
+              <option value="canada">Canada</option>
+              <option value="usa">United States of America</option>
+            </select>
           </div>
 
           <div className="flex items-center justify-center space-y-4 w-full">
             <label className="w-60 text-2xl pt-4">Company Size</label>
-            <Select
-              onValueChange={(value) => handleSelectChange("company_size", value)}
-              defaultValue={formData.company_size}
+            <select
+              className="flex h-16 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none"
+              name="company_size"
+              value={formData.company_size}
+              onChange={handleChange}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Select company size" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1-10">1-10</SelectItem>
-                <SelectItem value="11-50">11-50</SelectItem>
-                <SelectItem value="51-200">51-200</SelectItem>
-                <SelectItem value="201-500">201-500</SelectItem>
-                <SelectItem value="501-1000">501-1000</SelectItem>
-                <SelectItem value="1000+">1000+</SelectItem>
-              </SelectContent>
-            </Select>
+              <option value="1-10">1-10</option>
+              <option value="11-50">11-50</option>
+              <option value="51-200">51-200</option>
+              <option value="201-500">201-500</option>
+              <option value="501-1000">501-1000</option>
+              <option value="1000+">1000+</option>
+            </select>
           </div>
 
           <div className="flex items-center justify-center space-y-4 w-full">

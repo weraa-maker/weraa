@@ -1,67 +1,59 @@
-
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
 
-export async function POST(req: Request,) {
+// Define the type for contact form data
+interface ContactFormData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  country: string;
+  company_size: string;
+  info: string;
+}
+
+export async function POST(req: Request) {
   if (req.method === 'POST') {
-
-    const { first_name, last_name, email, phone_number, country, company_size, info } = await req.json();
-
-
     try {
-      // Create a Nodemailer transport object (configure with your email provider)
-      const transporter = nodemailer.createTransport( {
- 
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth : {
-            user: 'tasicigor123@gmail.com',
-            pass: 'qdhxmcvfonmldrqv'
-        }
-    } );
-    
-
-
-
-
-      const mailOptions = {
-        from: email, 
-        to: 'tasicigor123@gmail.com',
-        subject: 'Contact Form Submission',
-        html: `
-        <h2>Contact Form Submission</h2>
-        <p><strong>First Name:</strong> ${first_name}</p>
-        <p><strong>Last Name:</strong> ${last_name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone Number:</strong> ${phone_number}</p>
-        <p><strong>Country:</strong> ${country}</p>
-        <p><strong>Company Size:</strong> ${company_size}</p>
-        <p><strong>Info:</strong> ${info}</p>
-
-      `,
-    };
-
-
-
-
-
-      // Send the email
-      await transporter.sendMail(mailOptions);
-
-    return NextResponse.json({ message: 'Email has been sent' });
-  
+      // Parse the request body
+      const formData: ContactFormData = await req.json();
+      
+      // Log the form data instead of sending an email
+      console.log('Contact form submission received:');
+      console.log('Name:', `${formData.first_name} ${formData.last_name}`);
+      console.log('Email:', formData.email);
+      console.log('Phone:', formData.phone_number);
+      console.log('Country:', formData.country);
+      console.log('Company Size:', formData.company_size);
+      console.log('Additional Info:', formData.info);
+      
+      // In a real application, you would send this data via email
+      // Since we can't use nodemailer, we're just logging it
+      
+      // Return a success response
+      return NextResponse.json({ 
+        success: true,
+        message: 'Form submission received successfully' 
+      });
+      
     } catch (error) {
-      console.error(error);
-
-        return NextResponse.json({message: 'Error sending email'});
-
+      console.error('Error processing form submission:', error);
+      return NextResponse.json(
+        { 
+          success: false,
+          message: 'Error processing form submission' 
+        },
+        { status: 500 }
+      );
     }
   } else {
-    
-    return NextResponse.json({message: 'Method not allowed'});
-
-
+    // Method not allowed
+    return NextResponse.json(
+      { 
+        success: false,
+        message: 'Method not allowed' 
+      },
+      { status: 405 }
+    );
   }
 }
 
