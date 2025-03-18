@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import FAQSchema from './faq-schema';
 
 // Define the FAQ item type
 type FAQItem = {
@@ -31,6 +32,14 @@ const faqData: FAQItem[] = [
     question: "What is the typical turnaround time for projects?",
     answer: "Turnaround times vary based on project complexity and volume. We offer flexible scaling options to meet urgent deadlines. For standard projects, we typically deliver annotations within days, and for larger volumes, we establish a continuous delivery schedule to ensure consistent output."
   },
+  {
+    question: "Can you handle specialized domain-specific annotation tasks?",
+    answer: "Yes, we specialize in domain-specific annotation tasks across various industries. Our team includes subject matter experts in healthcare, automotive, agriculture, retail, and more who understand the unique terminology and requirements of each field."
+  },
+  {
+    question: "Do you provide API integration for annotation services?",
+    answer: "Yes, we offer API integration options that allow seamless connection between your systems and our annotation platform. This enables automated data transfer, real-time progress tracking, and direct integration with your ML pipelines."
+  },
 ];
 
 export default function FAQSection() {
@@ -41,70 +50,52 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="py-12 bg-gray-50 dark:bg-gray-800">
+    <section id="faq" className="py-16 bg-gray-50 dark:bg-gray-800">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8 text-center dark:text-white">
-          Frequently Asked Questions
-        </h2>
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Find answers to common questions about our data annotation services
+          </p>
+        </div>
         
-        {/* FAQ Schema.org structured data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": faqData.map(item => ({
-                "@type": "Question",
-                "name": item.question,
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": item.answer
-                }
-              }))
-            })
-          }}
-        />
+        {/* Add the FAQ schema for structured data */}
+        <FAQSchema items={faqData} />
         
-        <div 
-          className="space-y-4 max-w-3xl mx-auto"
-          itemScope 
-          itemType="https://schema.org/FAQPage"
-        >
+        <div className="space-y-4 max-w-3xl mx-auto">
           {faqData.map((faq, index) => (
             <div 
               key={index} 
-              className="border rounded-lg overflow-hidden bg-white dark:bg-gray-700 dark:border-gray-600"
-              itemScope
-              itemProp="mainEntity"
-              itemType="https://schema.org/Question"
+              className="border rounded-lg overflow-hidden shadow-sm bg-white dark:bg-gray-700 dark:border-gray-600 transition-all duration-200 hover:shadow-md"
             >
               <button
-                className="flex justify-between items-center w-full p-4 text-left"
+                className="flex justify-between items-center w-full p-5 text-left"
                 onClick={() => toggleFAQ(index)}
                 aria-expanded={openIndex === index}
                 aria-controls={`faq-answer-${index}`}
               >
-                <span className="font-medium text-lg dark:text-white" itemProp="name">
+                <span className="font-medium text-lg text-gray-900 dark:text-white">
                   {faq.question}
                 </span>
-                {openIndex === index ? (
-                  <ChevronUp className="h-5 w-5 text-gray-500 dark:text-gray-300" />
-                ) : (
-                  <ChevronDown className="h-5 w-5 text-gray-500 dark:text-gray-300" />
-                )}
+                <span className="ml-4 flex-shrink-0">
+                  {openIndex === index ? (
+                    <ChevronUp className="h-5 w-5 text-primary dark:text-primary-400" aria-hidden="true" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5 text-gray-500 dark:text-gray-300" aria-hidden="true" />
+                  )}
+                </span>
               </button>
               
               <div 
                 id={`faq-answer-${index}`}
-                className={`px-4 overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? "pb-4 max-h-96" : "max-h-0"
+                className={`px-5 overflow-hidden transition-all duration-300 ease-in-out ${
+                  openIndex === index ? "pb-5 max-h-96" : "max-h-0"
                 }`}
-                itemScope
-                itemProp="acceptedAnswer"
-                itemType="https://schema.org/Answer"
+                aria-hidden={openIndex !== index}
               >
-                <p className="text-gray-600 dark:text-gray-300" itemProp="text">
+                <p className="text-gray-600 dark:text-gray-300">
                   {faq.answer}
                 </p>
               </div>
