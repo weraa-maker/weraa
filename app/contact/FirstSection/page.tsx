@@ -5,7 +5,6 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 
 // Define types for form data
@@ -22,7 +21,7 @@ type FormData = {
 export default function FirstSection() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const { toast } = useToast();
+  const [error, setError] = useState<string | null>(null);
   
   // Form state
   const [formData, setFormData] = useState<FormData>({
@@ -47,13 +46,11 @@ export default function FirstSection() {
   // Form submission
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setError(null);
     
     // Basic email validation
     if (!formData.email.includes('@')) {
-      toast({
-        title: "Error",
-        description: 'Please enter a valid email address',
-      });
+      setError('Please enter a valid email address');
       return;
     }
     
@@ -73,10 +70,7 @@ export default function FirstSection() {
     }
     catch (err) {
       console.error(err);
-      toast({
-        title: "Error",
-        description: 'Something went wrong',
-      });
+      setError('Something went wrong. Please try again later.');
     }
     finally {
       setLoading(false);
@@ -96,6 +90,13 @@ export default function FirstSection() {
       ) : (
         <div className="text-3xl text-green-400">
           Thank you for contacting us. We will be in contact with you shortly.
+        </div>
+      )}
+
+      {/* Show error message if exists */}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <span className="block sm:inline">{error}</span>
         </div>
       )}
 
