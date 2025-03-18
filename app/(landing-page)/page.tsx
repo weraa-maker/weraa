@@ -10,6 +10,8 @@ import SixthSection from "./SixthSection/page";
 import ThirdSection from "./ThirdSection/page";
 import Footer from "./footer/page";
 import JsonLd from './components/JsonLd';
+import FAQSection from '@/components/faq-section';
+import NewsletterForm from '@/components/newsletter-form';
 
 export const metadata: Metadata = {
   title: 'Data Annotation & Labeling Solutions for AI and Machine Learning',
@@ -40,6 +42,8 @@ const LandingPage = () => {
       <FifthSection />
       <SixthSection/>
       <SeventhSection/>
+      <FAQSection />
+      <NewsletterForm />
       <EighthSection/>
       <Footer/>
     </div> );

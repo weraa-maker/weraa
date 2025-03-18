@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Logo from "./_components/logo";
 import { NavigationMenuBar } from "./_components/menu";
 import ActionButtons from "./_components/buttons";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const Navbar = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -26,7 +27,7 @@ const Navbar = () => {
   }, []);
 
   const navbarClasses = `
-    flex items-center justify-center space-x-10 bg-[#E5E4E2] md:px-10
+    flex items-center justify-center space-x-10 bg-[#E5E4E2] dark:bg-gray-900 dark:text-white md:px-10
     sticky top-0 z-50 ${hasScrolled ? "shadow-sm" : ""}
   `;
 
@@ -41,7 +42,10 @@ const Navbar = () => {
         <Logo />
         <NavigationMenuBar />
       </div>
-      <ActionButtons />
+      <div className="flex items-center space-x-4">
+        <ThemeToggle />
+        <ActionButtons />
+      </div>
     </nav>
   );
 };

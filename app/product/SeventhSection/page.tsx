@@ -122,7 +122,7 @@ const SeventhSection = () => {
         <div className="ml-6 space-y-4">
 
      
-        <div className="text-xl"> • Our flexible workforce and advanced technology ensure we're prepared to support your business growth quickly and efficiently.</div>
+        <div className="text-xl"> • Our flexible workforce and advanced technology ensure we&apos;re prepared to support your business growth quickly and efficiently.</div>
         <div className="text-xl"> • We develop custom growth strategies and leverage data-driven decisions to help you capitalize on market opportunities and optimize operations.</div>
         <div className="text-xl"> • Our collaborative partnership and focus on sustainable growth ensure long-term success and consistent alignment with your business goals.</div>
         </div>

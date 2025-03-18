@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
 import './globals.css'
 import Script from 'next/script'
+import CookieConsent from '@/components/cookie-consent'
 
 const font = Outfit({ subsets: ['latin'] })
 
@@ -75,6 +76,7 @@ export default function RootLayout({
           ></iframe>
         </noscript>
         {children}
+        <CookieConsent />
       </body>
     </html>
   )

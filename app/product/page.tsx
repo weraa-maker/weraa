@@ -9,6 +9,7 @@ import SixthSection from "./SixthSection/page";
 import SeventhSection from "./SeventhSection/page";
 import EighthSection from "./EighthSection/page";
 import Footer from "./footer/page";
+import { Breadcrumb } from '@/components/ui/breadcrumb';
 
 export const metadata: Metadata = {
   title: 'Data Annotation Services & Products | Weraa',
@@ -32,6 +33,9 @@ const ProductPage = () => {
     return ( 
     <div>
         <Navbar />
+        <div className="container mx-auto px-4">
+          <Breadcrumb />
+        </div>
         <FirstSection />
         <SecondSection />
         <ThirdSection />

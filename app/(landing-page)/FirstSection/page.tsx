@@ -60,6 +60,9 @@ const FirstSection = () => {
         alt="Data annotation specialists working on AI training data"
         width={500}
         height={500}
+        loading="lazy"
+        placeholder="blur"
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
       />
 
         </motion.div>
@@ -75,6 +78,9 @@ const FirstSection = () => {
             alt="Image annotation process for machine learning datasets"
             width={500}
             height={500}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
           />
 
         </motion.div>
@@ -91,6 +97,9 @@ const FirstSection = () => {
             alt="Text and media annotation services for AI model training"
             width={500}
             height={500}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
           />
         </motion.div>
       </div>

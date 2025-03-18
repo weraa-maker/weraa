@@ -4,6 +4,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import Image from "next/image";
 
 import {
   Select,
@@ -342,7 +343,13 @@ export default function FirstSection() {
            
                 <div className="">
               
-                    <img src="/videos/check.gif" className="h-28 w-28" />
+                    <Image 
+                      src="/videos/check.gif" 
+                      alt="Success check mark animation" 
+                      width={112} 
+                      height={112} 
+                      className="h-28 w-28" 
+                    />
             
                     </div>
             
