@@ -1,9 +1,10 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Breadcrumb } from '@/components/ui/breadcrumb';
+import Breadcrumb from '@/components/ui/breadcrumb';
 import { ChevronLeft, Calendar, Clock, Share2 } from 'lucide-react';
 import Link from 'next/link';
+import { sanitizeHtml } from '@/lib/utils';
 
 // Sample blog post data
 const blogPosts = [
@@ -101,7 +102,90 @@ const blogPosts = [
     category: 'Healthcare',
     image: '/images/tab-2.webp',
     readTime: '9 min read',
-    content: `<p>Medical imaging AI is revolutionizing healthcare, but requires extremely precise annotations...</p>`,
+    content: `
+      <p>Medical imaging AI is revolutionizing healthcare, but requires extremely precise annotations to be effective. The quality and accuracy of these annotations directly impact patient outcomes, making this one of the most critical applications of data annotation technology.</p>
+      
+      <h2>The Unique Challenges of Medical Image Annotation</h2>
+      
+      <p>Annotating medical images presents unique challenges compared to general image annotation tasks:</p>
+      
+      <ul>
+        <li><strong>Clinical expertise requirement</strong>: Accurate annotation often requires specialized medical knowledge</li>
+        <li><strong>Subtle anomalies</strong>: Many pathologies present as subtle variations that are difficult to identify</li>
+        <li><strong>Varying imaging protocols</strong>: Different machines and protocols produce images with varying characteristics</li>
+        <li><strong>3D complexity</strong>: Many medical imaging modalities like CT and MRI produce 3D volumes requiring specialized annotation approaches</li>
+      </ul>
+      
+      <p>These challenges make medical image annotation particularly demanding and highlight the need for specialized tools and workflows.</p>
+      
+      <h2>Current Applications of AI in Medical Imaging</h2>
+      
+      <p>AI applications in medical imaging span various specialties and continue to expand:</p>
+      
+      <h3>1. Radiology</h3>
+      
+      <p>In radiology, AI algorithms assist with:</p>
+      
+      <ul>
+        <li>Detecting lung nodules in chest X-rays</li>
+        <li>Identifying early signs of breast cancer in mammograms</li>
+        <li>Quantifying brain volume changes in neurodegenerative diseases</li>
+        <li>Prioritizing critical findings in radiologist workflows</li>
+      </ul>
+      
+      <h3>2. Pathology</h3>
+      
+      <p>Digital pathology benefits from AI through:</p>
+      
+      <ul>
+        <li>Automated cell counting and classification</li>
+        <li>Cancer grading and staging assistance</li>
+        <li>Detection of rare cellular events</li>
+      </ul>
+      
+      <h3>3. Ophthalmology</h3>
+      
+      <p>In eye care, AI supports:</p>
+      
+      <ul>
+        <li>Diabetic retinopathy screening</li>
+        <li>Glaucoma detection through optical coherence tomography analysis</li>
+        <li>Age-related macular degeneration monitoring</li>
+      </ul>
+      
+      <h2>Annotation Quality Standards for Medical AI</h2>
+      
+      <p>The critical nature of medical AI applications necessitates stringent quality standards:</p>
+      
+      <h3>Expert Consensus Annotations</h3>
+      
+      <p>The gold standard for medical image annotation typically involves multiple experts creating consensus annotations. This approach helps mitigate individual biases and errors, providing more reliable ground truth data for AI training.</p>
+      
+      <h3>Specialized Annotation Tools</h3>
+      
+      <p>Medical image annotation requires specialized tools that can handle:</p>
+      
+      <ul>
+        <li>DICOM format processing</li>
+        <li>3D volume annotation</li>
+        <li>Multi-sequence alignment</li>
+        <li>Anatomical landmark placement</li>
+      </ul>
+      
+      <h2>Future Directions</h2>
+      
+      <p>The field of medical imaging AI continues to evolve rapidly. Several emerging trends will shape its future:</p>
+      
+      <ul>
+        <li><strong>Federated learning</strong>: Enabling AI model training across institutions without sharing sensitive patient data</li>
+        <li><strong>Active learning</strong>: Intelligent selection of the most informative cases for annotation to reduce required annotation volumes</li>
+        <li><strong>Multimodal integration</strong>: Combining imaging data with clinical, genomic, and other patient data for more comprehensive analysis</li>
+      </ul>
+      
+      <h2>Conclusion</h2>
+      
+      <p>The quality of data annotation in medical imaging AI directly impacts clinical outcomes and patient care. By addressing the unique challenges of medical image annotation and adhering to rigorous quality standards, we can develop AI systems that serve as valuable tools in the healthcare ecosystem, augmenting clinical expertise and improving patient care.</p>
+    `,
     tags: ['healthcare', 'medical imaging', 'AI diagnostics', 'radiology', 'data annotation'],
     relatedPosts: ['data-annotation-best-practices', 'autonomous-vehicles']
   },
@@ -117,7 +201,109 @@ const blogPosts = [
     category: 'Automotive',
     image: '/images/tab-3.webp',
     readTime: '8 min read',
-    content: `<p>Autonomous vehicles represent one of the most complex applications of AI and data annotation...</p>`,
+    content: `
+      <p>Autonomous vehicles represent one of the most complex applications of AI and data annotation, requiring unprecedented precision, scale, and diversity of labeled data to ensure safe operation in unpredictable real-world environments.</p>
+      
+      <h2>The Data Challenge in Autonomous Driving</h2>
+      
+      <p>The development of self-driving cars faces unique data challenges:</p>
+      
+      <h3>Scale Requirements</h3>
+      
+      <p>A single autonomous vehicle can generate terabytes of data per day. Industry leaders report collecting millions of miles of driving data, requiring annotation of:</p>
+      
+      <ul>
+        <li>Billions of video frames</li>
+        <li>Trillions of LiDAR points</li>
+        <li>Countless radar returns</li>
+        <li>Numerous edge cases and rare events</li>
+      </ul>
+      
+      <h3>Multi-Sensor Annotation</h3>
+      
+      <p>Autonomous vehicles rely on sensor fusion from multiple sources:</p>
+      
+      <ul>
+        <li><strong>Cameras</strong>: Requiring 2D bounding boxes, semantic segmentation, and instance segmentation</li>
+        <li><strong>LiDAR</strong>: Needing 3D cuboid annotation and point cloud segmentation</li>
+        <li><strong>Radar</strong>: Demanding specialized signal processing and annotation</li>
+      </ul>
+      
+      <p>These different sensor modalities must be annotated in a coordinated fashion to enable effective sensor fusion algorithms.</p>
+      
+      <h2>Critical Annotation Requirements</h2>
+      
+      <h3>Temporal Consistency</h3>
+      
+      <p>Unlike static image annotation, autonomous driving data must maintain consistency across video frames. This requires:</p>
+      
+      <ul>
+        <li>Object tracking across frames</li>
+        <li>Consistent instance IDs</li>
+        <li>Handling of occlusions and reappearances</li>
+      </ul>
+      
+      <h3>Edge Case Coverage</h3>
+      
+      <p>Safe autonomous systems must handle rare but critical scenarios:</p>
+      
+      <ul>
+        <li>Unusual road participants (e.g., construction equipment)</li>
+        <li>Unexpected pedestrian behaviors</li>
+        <li>Unusual traffic patterns and road conditions</li>
+        <li>Adverse weather and lighting conditions</li>
+      </ul>
+      
+      <p>These edge cases often require special annotation protocols and quality assurance processes.</p>
+      
+      <h2>Innovative Annotation Approaches</h2>
+      
+      <h3>Semi-Automated Pipelines</h3>
+      
+      <p>To handle the massive scale requirements, companies are developing sophisticated annotation pipelines:</p>
+      
+      <ul>
+        <li>AI-assisted pre-annotation</li>
+        <li>Active learning for efficient data selection</li>
+        <li>Auto-propagation of annotations across video frames</li>
+        <li>Quality verification through multiple redundant annotations</li>
+      </ul>
+      
+      <h3>Simulation and Synthetic Data</h3>
+      
+      <p>Many companies augment real-world data with simulated scenarios:</p>
+      
+      <ul>
+        <li>Generating synthetic data with perfect annotations</li>
+        <li>Creating rare edge cases that are difficult to capture in reality</li>
+        <li>Testing "what if" scenarios systematically</li>
+      </ul>
+      
+      <h2>Safety and Regulatory Considerations</h2>
+      
+      <p>Annotation quality in autonomous vehicles has direct safety implications:</p>
+      
+      <ul>
+        <li>Annotation errors can propagate to model errors and potentially unsafe driving behaviors</li>
+        <li>Regulatory frameworks increasingly require documentation of data quality measures</li>
+        <li>Safety standards demand traceable annotation processes with quality assurance</li>
+      </ul>
+      
+      <h2>Future Trends</h2>
+      
+      <p>The field continues to evolve rapidly with several emerging approaches:</p>
+      
+      <ul>
+        <li><strong>Unsupervised learning</strong>: Reducing dependence on human annotations</li>
+        <li><strong>Reinforcement learning</strong>: Learning from interactions rather than labeled data</li>
+        <li><strong>Continuous learning</strong>: Updating models based on real-world experiences</li>
+        <li><strong>Federated annotation</strong>: Distributing annotation tasks across multiple teams while maintaining consistency</li>
+      </ul>
+      
+      <h2>Conclusion</h2>
+      
+      <p>Data annotation for autonomous vehicles represents one of the most demanding challenges in AI today. The scale, complexity, and safety requirements push the boundaries of what's possible in annotation technology. As the industry matures, we can expect continued innovation in how we create, manage, and utilize the massive datasets required to make self-driving cars a safe and reliable reality.</p>
+    `,
     tags: ['autonomous vehicles', 'self-driving cars', 'ADAS', 'automotive', 'sensor fusion'],
     relatedPosts: ['data-annotation-best-practices', 'ai-medical-imaging']
   }
@@ -238,7 +424,7 @@ export default function BlogPostPage({ params }: Props) {
             {/* Article body */}
             <div 
               className="prose prose-lg max-w-none dark:prose-invert prose-headings:text-gray-900 dark:prose-headings:text-white prose-a:text-blue-600 dark:prose-a:text-blue-400"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
             />
             
             {/* Author bio */}

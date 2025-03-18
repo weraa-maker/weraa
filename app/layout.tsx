@@ -73,7 +73,8 @@ export const metadata: Metadata = {
     maximumScale: 5,
   },
   verification: {
-    google: 'google-site-verification-code', // Replace with your verification code
+    // Uncomment and add your Google verification code when available
+    // google: 'your-google-verification-code',
   },
 }
 
@@ -89,7 +90,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* Google Tag Manager */}
+        {/* Google Tag Manager - Uncomment and replace GTM-XXXXXXX with your actual GTM ID when ready to deploy */}
+        {/* 
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -99,9 +101,11 @@ export default function RootLayout({
             })(window,document,'script','dataLayer','GTM-XXXXXXX');
           `}
         </Script>
+        */}
       </head>
       <body className={font.className}>
-        {/* Google Tag Manager (noscript) */}
+        {/* Google Tag Manager (noscript) - Uncomment and replace GTM-XXXXXXX with your actual GTM ID when ready to deploy */}
+        {/* 
         <noscript>
           <iframe 
             src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
@@ -110,6 +114,7 @@ export default function RootLayout({
             style={{ display: 'none', visibility: 'hidden' }}
           ></iframe>
         </noscript>
+        */}
         {children}
         <CookieConsent />
       </body>
