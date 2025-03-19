@@ -1,22 +1,11 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
+import Image, { ImageProps } from 'next/image';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
-interface OptimizedImageProps {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
-  className?: string;
-  priority?: boolean;
-  sizes?: string;
-  fill?: boolean;
-  quality?: number;
-  placeholder?: 'blur' | 'empty';
-  blurDataURL?: string;
-  loading?: 'lazy' | 'eager';
+interface OptimizedImageProps extends Omit<ImageProps, 'onLoad' | 'onError'> {
+  fallbackSrc?: string;
 }
 
 /**
@@ -27,42 +16,41 @@ interface OptimizedImageProps {
  * - Provides placeholder options
  * - Ensures proper alt text for accessibility
  */
-export default function OptimizedImage({
+export function OptimizedImage({
   src,
   alt,
-  width,
-  height,
   className,
+  fallbackSrc = '/images/placeholder.jpg',
   priority = false,
-  sizes = '(min-width: 1024px) 1024px, 100vw',
-  fill = false,
-  quality = 85,
-  placeholder = 'empty',
-  blurDataURL,
-  loading,
+  quality = 90,
+  ...props
 }: OptimizedImageProps) {
-  // Generate local blur placeholder if fill mode is used but no blurDataURL provided
-  const placeholderProps = placeholder === 'blur' && !blurDataURL && !fill
-    ? { placeholder: 'empty' as const }
-    : placeholder === 'blur'
-    ? { placeholder: 'blur' as const, blurDataURL }
-    : { placeholder: 'empty' as const };
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   return (
-    <div className={cn('relative', fill ? 'w-full h-full' : '', className)}>
+    <div className={cn('relative overflow-hidden', className)}>
       <Image
-        src={src}
+        src={error ? fallbackSrc : src}
         alt={alt}
-        width={fill ? undefined : width}
-        height={fill ? undefined : height}
-        className={cn('object-cover', className)}
-        priority={priority}
-        sizes={sizes}
-        fill={fill}
+        className={cn(
+          'transition-opacity duration-300 ease-in-out',
+          isLoading ? 'opacity-0' : 'opacity-100'
+        )}
         quality={quality}
-        loading={loading || (priority ? 'eager' : 'lazy')}
-        {...placeholderProps}
+        priority={priority}
+        onLoad={() => setIsLoading(false)}
+        onError={() => {
+          setIsLoading(false);
+          setError(true);
+        }}
+        {...props}
       />
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" />
+        </div>
+      )}
     </div>
   );
 } 

@@ -39,7 +39,7 @@ const FirstSection = () => {
           <button className="bg-[#000] text-white px-6 py-3 rounded-sm ">
             Get Started Today
           </button>
-          <Link href="/Contact">
+          <Link href="/contact">
             <button className="bg-gray-500 text-white px-6 py-3 rounded-sm">
               See how it works
             </button>

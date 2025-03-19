@@ -1,7 +1,8 @@
-import { NextResponse } from 'next/server';
+'use server';
+
 import { z } from 'zod';
 
-// Define the schema for contact form data validation
+// Contact form schema
 const contactFormSchema = z.object({
   first_name: z.string().min(2, { message: 'First name must be at least 2 characters.' }),
   last_name: z.string().min(2, { message: 'Last name must be at least 2 characters.' }),
@@ -12,29 +13,41 @@ const contactFormSchema = z.object({
   message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
 });
 
-export async function POST(req: Request) {
-  try {
-    // Parse the request body
-    const body = await req.json();
+export type ContactFormActionResult = {
+  success: boolean;
+  message: string;
+  errors?: Record<string, string[]>;
+};
+
+export async function submitContactForm(formData: unknown): Promise<ContactFormActionResult> {
+  // Validate the form data
+  const result = contactFormSchema.safeParse(formData);
+  
+  if (!result.success) {
+    // Format errors into a simpler structure
+    const formattedErrors: Record<string, string[]> = {};
+    const zodErrors = result.error.format();
     
-    // Validate the form data
-    const result = contactFormSchema.safeParse(body);
-    
-    if (!result.success) {
-      // Return validation errors
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Validation failed',
-          errors: result.error.format(),
-        },
-        { status: 400 }
-      );
+    // Extract field errors from Zod's error format
+    for (const [field, error] of Object.entries(zodErrors)) {
+      if (field !== '_errors' && typeof error === 'object' && '_errors' in error) {
+        if (error._errors.length > 0) {
+          formattedErrors[field] = error._errors;
+        }
+      }
     }
     
-    const data = result.data;
-    
-    // Log the form data for demo/development purposes
+    return {
+      success: false,
+      message: 'Validation failed',
+      errors: formattedErrors,
+    };
+  }
+  
+  const data = result.data;
+  
+  try {
+    // Log the form data in development
     console.log('Contact form submission received:');
     console.log('Name:', `${data.first_name} ${data.last_name}`);
     console.log('Email:', data.email);
@@ -43,35 +56,23 @@ export async function POST(req: Request) {
     console.log('Company Size:', data.company_size);
     console.log('Message:', data.message);
     
-    // In a production application, you would:
+    // Here you would typically:
     // 1. Store the data in a database
     // 2. Send an email notification
     // 3. Possibly trigger other workflows
     
-    // Return a success response
-    return NextResponse.json({
+    // For now, we'll just simulate a successful submission
+    
+    return {
       success: true,
       message: 'Form submission received successfully',
-    });
+    };
     
   } catch (error) {
     console.error('Error processing form submission:', error);
-    
-    // Return a structured error response
-    return NextResponse.json(
-      {
-        success: false,
-        message: 'Error processing form submission',
-        error: error instanceof Error ? error.message : 'Unknown error',
-      },
-      { status: 500 }
-    );
+    return {
+      success: false,
+      message: 'An error occurred while processing your submission',
+    };
   }
-}
-
-
-
-
-
-
-
+} 

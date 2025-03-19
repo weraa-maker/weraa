@@ -1,82 +1,86 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { useAtom } from "jotai";
+import { userPreferencesAtom } from "@/lib/store";
+import { toast } from "sonner";
 
 export default function CookieConsent() {
-  const [showBanner, setShowBanner] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [userPreferences, setUserPreferences] = useAtom(userPreferencesAtom);
 
   useEffect(() => {
-    // Check if user has already made a cookie choice
-    const cookieConsent = localStorage.getItem("cookie-consent");
-    if (!cookieConsent) {
-      // Show banner if no choice has been made
-      setShowBanner(true);
+    // Only show if consent hasn't been given
+    if (!userPreferences.cookiesAccepted) {
+      // Delay showing by 2 seconds for better UX
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 2000);
+      
+      return () => clearTimeout(timer);
     }
-  }, []);
+  }, [userPreferences.cookiesAccepted]);
 
   const acceptAll = () => {
-    // Set consent to "all" in localStorage
-    localStorage.setItem("cookie-consent", "all");
-    // Here you would normally initialize analytics, etc.
-    setShowBanner(false);
+    setUserPreferences({
+      ...userPreferences,
+      cookiesAccepted: true,
+      analyticsConsent: true,
+      marketingConsent: true,
+      lastUpdated: new Date(),
+    });
+    setIsVisible(false);
+    toast.success('Cookie preferences saved');
   };
 
   const acceptEssential = () => {
-    // Set consent to "essential" in localStorage
-    localStorage.setItem("cookie-consent", "essential");
-    // Here you would only initialize essential cookies
-    setShowBanner(false);
+    setUserPreferences({
+      ...userPreferences,
+      cookiesAccepted: true,
+      analyticsConsent: false,
+      marketingConsent: false,
+      lastUpdated: new Date(),
+    });
+    setIsVisible(false);
+    toast.success('Essential cookie preferences saved');
   };
 
   const openSettings = () => {
-    // This would open more detailed cookie settings
-    // For simplicity, we'll just show an alert
-    alert("Cookie settings would open here");
+    // In a real app, this would open a modal with detailed cookie settings
+    toast.info('Cookie settings would open here');
   };
 
-  if (!showBanner) return null;
+  if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white dark:bg-gray-800 shadow-lg border-t border-gray-200 dark:border-gray-700">
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex-grow max-w-3xl">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold dark:text-white">Cookie Consent</h3>
-              <button 
-                onClick={() => setShowBanner(false)} 
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                aria-label="Close cookie banner"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-              We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking &ldquo;Accept All&rdquo;, you consent to our use of cookies.
-            </p>
-            <button 
-              onClick={openSettings}
-              className="text-blue-600 dark:text-blue-400 text-sm mt-1 hover:underline"
-            >
-              Cookie Policy
-            </button>
-          </div>
-          
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={acceptEssential}
-              className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 dark:text-white transition-colors"
-            >
-              Essential Only
-            </button>
-            <button
-              onClick={acceptAll}
-              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-            >
-              Accept All
-            </button>
-          </div>
+    <div className="fixed bottom-0 left-0 z-50 w-full bg-white p-4 shadow-lg dark:bg-gray-800 md:bottom-4 md:left-4 md:w-auto md:max-w-md md:rounded-lg">
+      <div className="flex flex-col space-y-4">
+        <div className="text-sm">
+          <h3 className="mb-1 font-medium">Cookie Consent</h3>
+          <p className="text-gray-600 dark:text-gray-300">
+            We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking &ldquo;Accept All&rdquo;, you consent to our use of cookies.
+          </p>
+        </div>
+        
+        <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
+          <button 
+            onClick={acceptAll}
+            className="rounded-md bg-blue-600 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+          >
+            Accept All
+          </button>
+          <button 
+            onClick={acceptEssential}
+            className="rounded-md border border-gray-300 bg-transparent px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+          >
+            Essential Only
+          </button>
+          <button 
+            onClick={openSettings}
+            className="rounded-md border border-gray-300 bg-transparent px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+          >
+            Customize
+          </button>
         </div>
       </div>
     </div>

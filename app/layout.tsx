@@ -1,8 +1,9 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Outfit } from 'next/font/google'
 import './globals.css'
 import Script from 'next/script'
 import CookieConsent from '@/components/cookie-consent'
+import { Providers } from './providers'
 
 const font = Outfit({ 
   subsets: ['latin'],
@@ -67,15 +68,13 @@ export const metadata: Metadata = {
     images: ['/images/twitter-image.jpg'],
     creator: '@weraa',
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
-  verification: {
-    // Uncomment and add your Google verification code when available
-    // google: 'your-google-verification-code',
-  },
+}
+
+// Move viewport configuration to dedicated export
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 }
 
 export default function RootLayout({
@@ -84,38 +83,30 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={font.variable}>
+    <html lang="en" className={font.variable} suppressHydrationWarning>
       <head>
         {/* Preconnect to relevant domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* Google Tag Manager - Uncomment and replace GTM-XXXXXXX with your actual GTM ID when ready to deploy */}
-        {/* 
-        <Script id="google-tag-manager" strategy="afterInteractive">
+        {/* Google Analytics - Next.js recommended way */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXX"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-XXXXXXX');
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XXXXXXXX');
           `}
         </Script>
-        */}
       </head>
       <body className={font.className}>
-        {/* Google Tag Manager (noscript) - Uncomment and replace GTM-XXXXXXX with your actual GTM ID when ready to deploy */}
-        {/* 
-        <noscript>
-          <iframe 
-            src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-            height="0" 
-            width="0" 
-            style={{ display: 'none', visibility: 'hidden' }}
-          ></iframe>
-        </noscript>
-        */}
-        {children}
+        <Providers>
+          {children}
+        </Providers>
         <CookieConsent />
       </body>
     </html>
