@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import EighthSection from "./EighthSection/page";
 import FifthSection from "./FifthSection/page";
-import FirstSection from "./FirstSection/page";
+import FirstSection from "./components/FirstSection";
 import FourthSection from "./FourthSection/page";
 import Navbar from "./Navbar/navbar";
 import SecondSection from "./SecondSection/page";

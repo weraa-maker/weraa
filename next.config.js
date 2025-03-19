@@ -28,13 +28,16 @@ const nextConfig = {
   // Fix for ENOENT errors during Vercel deployments
   output: 'standalone',
   
+  // Properly configure App Directory
   experimental: {
     // Disable optimizations that may cause deployment issues
     optimizeCss: false,
-    // Disable typed routes to fix compilation errors with route typing
+    // Disable typed routes to fix compilation errors
     typedRoutes: false,
     // Enable modern optimizations
     serverComponentsExternalPackages: [],
+    // Ensure app directory is properly used
+    appDir: true,
   },
 };
 

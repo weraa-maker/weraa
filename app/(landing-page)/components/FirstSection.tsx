@@ -107,4 +107,4 @@ const FirstSection = () => {
   );
 };
 
-export default FirstSection;
+export default FirstSection; 
