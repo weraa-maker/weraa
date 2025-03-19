@@ -25,12 +25,16 @@ const nextConfig = {
   // Routing configuration
   skipTrailingSlashRedirect: true,
   
+  // Fix for ENOENT errors during Vercel deployments
+  output: 'standalone',
+  
   experimental: {
+    // Disable optimizations that may cause deployment issues
+    optimizeCss: false,
     // Disable typed routes to fix compilation errors with route typing
     typedRoutes: false,
     // Enable modern optimizations
     serverComponentsExternalPackages: [],
-    optimizeCss: true, // Enable CSS optimization
   },
 };
 

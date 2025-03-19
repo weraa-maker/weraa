@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import EighthSection from "./EighthSection/page";
 import FifthSection from "./FifthSection/page";
 import FirstSection from "./FirstSection/page";
@@ -9,9 +10,11 @@ import SeventhSection from "./SeventhSection/page";
 import SixthSection from "./SixthSection/page";
 import ThirdSection from "./ThirdSection/page";
 import Footer from "./footer/page";
-import JsonLd from './components/JsonLd';
-import FAQSection from '@/components/faq-section';
-import NewsletterForm from '@/components/newsletter-form';
+
+// Dynamic imports for components that might cause hydration issues
+const JsonLd = dynamic(() => import('./components/JsonLd'), { ssr: true });
+const FAQSection = dynamic(() => import('@/components/faq-section'), { ssr: true });
+const NewsletterForm = dynamic(() => import('@/components/newsletter-form'), { ssr: true });
 
 export const metadata: Metadata = {
   title: 'Data Annotation & Labeling Solutions for AI and Machine Learning',
@@ -73,7 +76,7 @@ const serviceData = {
   },
 };
 
-const LandingPage = () => {
+export default function LandingPage() {
     return ( 
     <div>
       {/* Add various structured data types */}
@@ -93,7 +96,8 @@ const LandingPage = () => {
           ],
         }} 
       />
-      {/* Custom service structured data */}
+      
+      {/* Service structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ 
@@ -103,6 +107,7 @@ const LandingPage = () => {
           })
         }}
       />
+      
       <Navbar/>
       <FirstSection/>
       <SecondSection/>
@@ -115,7 +120,6 @@ const LandingPage = () => {
       <NewsletterForm />
       <EighthSection/>
       <Footer/>
-    </div> );
+    </div> 
+    );
 }
- 
-export default LandingPage;
